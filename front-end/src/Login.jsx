@@ -21,28 +21,41 @@ function Login() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:8000/login',{ username, password },
-        { loggedin: true }
+      const response = await axios.post(
+        'http://localhost:8000/login',
+        { username, password },
+        { withCredentials: true }
       );
 
-      if (response.data.loggedin==true) {
-        navigate('/display');
+      if (response.data.loggedin === true) {
+        sessionStorage.setItem('user', username);
+        navigate('/dashboard');
       } else {
         setError(response.data.message || 'Login failed.');
       }
     } catch (err) {
-      setError('Incorrect Username and Password. You are no allowed.');
+      console.error(err);
+      setError('Incorrect username or password.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <>
+      <div className="bg-green-700 h-20 flex justify-between items-center px-8 fixed top-0 w-full z-50">
+            <h1 className="text-white text-3xl font-bold">St_Luke_Hospital</h1>
+            </div>
+            <div className="flex items-center justify-center  bg-blue-700 text-black h-160">
+    <div className="flex items-center justify-center w-110 h-90 bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
-        <h1 className="text-2xl font-bold text-center">Login</h1>
+        <h1 className="text-2xl font-bold text-center text-black-700">Login</h1>
 
-        {error && <div className="p-3 text-sm text-red-600 bg-red-100 rounded">{error}</div>}
+        {error && (
+          <div className="p-3 text-sm text-red-600 bg-red-100 rounded">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
@@ -78,21 +91,26 @@ function Login() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 text-white rounded ${
-              loading ? 'bg-blue-300' : 'bg-blue-600 hover:bg-blue-700'
-            } focus:outline-none`}
+            className={`w-full py-2 text-white rounded ${loading ? 'bg-blue-300' : 'bg-blue-600 hover:bg-blue-700'}`}
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
-           <p className="mt-4 text-center text-sm">
-          Don't  have an account?{' '}
-          <Link to="/register" className="text-blue-500 hover:text-blue-700">
-            Create Account
-          </Link>
-        </p>
+
+          <p className="mt-4 text-center text-sm">
+            Don't have an account?{' '}
+            <Link to="/register" className="text-blue-500 hover:text-blue-700">
+              Create Account
+            </Link>
+          </p>
         </form>
+        {/* Footer */}
       </div>
+       <footer className="bg-gray-800 text-white text-center py-4 fixed bottom-0 w-full">
+        <p>© 2025 St_Luke_Hospital. All rights reserved.</p>
+      </footer>
     </div>
+    </div>
+     </>
   );
 }
 

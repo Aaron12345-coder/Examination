@@ -9,37 +9,42 @@ function UpdateUsers() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  useEffect(() => {
-    axios.get(`http://localhost:8000/users/${id}`)
-      .then((res) => {
-        setNames(res.data.names);
-        setEmail(res.data.email);
-        setUsername(res.data.username);
-        setPassword(res.data.password);
-      })
-      .catch((err) => {
-        console.error("Error fetching user:", err);
-      });
-  }, [id]);
+useEffect(() => {
+  axios.get(`http://localhost:8000/users/${id}`, {
+    withCredentials: true
+  })
+    .then((res) => {
+      setNames(res.data.names);
+      setEmail(res.data.email);
+      setUsername(res.data.username);
+      setPassword(res.data.password);
+    })
+    .catch((err) => {
+      console.error("Error fetching user:", err);
+    });
+}, [id]);
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:8000/users/${id}`, {
-      names,
-      email,
-      username,
-      password
-    })
-      .then(() => {
-        alert("User updated successfully!");
-      })
-      .catch((err) => {
-        console.error("Update error:", err);
-      });
+   axios.put(`http://localhost:8000/users/${id}`, {
+  names,
+  email,
+  username,
+  password
+}, {
+  withCredentials: true
+})
+  .then(() => {
+    alert("User updated successfully!");
+  })
+  .catch((err) => {
+    console.error("Update error:", err);
+  });
+
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Update User</h2>
       <form onSubmit={handleUpdate} className="space-y-4">
 

@@ -41,7 +41,7 @@ function Addnew() {
   };
 
   return (
-    <div className="max-w-sm mx-auto mt-10 p-4 border border-gray-300 rounded shadow-lg">
+    <div className="max-w-sm mx-auto mt-15 p-4 border border-gray-300 rounded shadow-lg">
       <form onSubmit={Submit}>
         <h2 className="text-2xl font-bold mb-4">Add New User</h2>
 
