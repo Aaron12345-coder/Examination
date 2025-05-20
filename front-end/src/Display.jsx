@@ -9,13 +9,13 @@ function Display() {
   // Check user session on component mount
   useEffect(() => {
     // Check if the user is logged in (assuming a /session endpoint that returns the session status)
-    axios.get('http://localhost:8000/session')
-      .then((response) => {
-        setIsLoggedIn(response.data.loggedIn); // Assuming the response has a loggedIn field
-      })
-      .catch((error) => {
-        console.error("Error fetching session status:", error);
-      });
+    // axios.get('http://localhost:8000/session')
+    //   .then((response) => {
+    //     setIsLoggedIn(response.data.loggedin); // Assuming the response has a loggedIn field
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching session status:", error);
+    //   });
 
     // Fetch the data for the users
     axios.get('http://localhost:8000/databa')
@@ -51,6 +51,7 @@ function Display() {
 
   return (
     <div className="max-w-6xl mx-auto mt-10 p-4">
+      <p>Welcome:</p>
       {/* Session Button */}
       <div className="flex justify-between mb-4">
         {isLoggedIn ? (
@@ -58,6 +59,7 @@ function Display() {
             onClick={handleLogout} 
             className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Logout</button>) : (<Link to="/">
             <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Logout</button></Link>)}
+           <Link to ="/addnew"> <button className="bg-blue-500 text-white px-5 py-1 rounded hover:bg-blue-600">Add New</button></Link>
       </div>
 
       <h2 className="text-2xl font-bold mb-4">Users List</h2>

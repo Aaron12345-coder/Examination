@@ -31,7 +31,7 @@ function Login() {
         setError(response.data.message || 'Login failed.');
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError('Incorrect Username and Password. You are no allowed.');
     } finally {
       setLoading(false);
     }
