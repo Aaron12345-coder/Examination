@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cool Messaging App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+    #app {
+      background: #1f1c2c;
+      width: 100%;
+      max-width: 420px;
+      height: 600px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    header {
+      background: #292643;
+      padding: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-align: center;
+      letter-spacing: 1.5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    #messages {
+      flex: 1;
+      background: #292643;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: #764ba2 transparent;
+    }
+    #messages::-webkit-scrollbar {
+      width: 8px;
+    }
+    #messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #messages::-webkit-scrollbar-thumb {
+      background-color: #764ba2;
+      border-radius: 20px;
+      border: 2px solid transparent;
+    }
+    .message {
+      background: #4e4376;
+      padding: 12px 18px;
+      border-radius: 18px;
+      max-width: 75%;
+      box-shadow: 0 4px 12px rgba(118,75,162,0.4);
+      position: relative;
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+    .message.sent {
+      background: #667eea;
+      align-self: flex-end;
+      border-bottom-right-radius: 0;
+    }
+    .message.received {
+      background: #4e4376;
+      align-self: flex-start;
+      border-bottom-left-radius: 0;
+    }
+    .timestamp {
+      display: block;
+      color: #c1c1d1;
+      font-size: 0.7rem;
+      margin-top: 5px;
+      opacity: 0.75;
+      user-select: none;
+    }
+    #input-area {
+      display: flex;
+      padding: 15px 20px;
+      background: #292643;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.4);
+    }
+    #input-area input {
+      flex: 1;
+      padding: 10px 15px;
+      border-radius: 25px;
+      border: none;
+      font-size: 1rem;
+      font-family: 'Roboto', sans-serif;
+      outline: none;
+    }
+    #input-area button {
+      margin-left: 15px;
+      background: #764ba2;
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      padding: 0 25px;
+      font-size: 1rem;
+      transition: background-color 0.25s ease;
+      box-shadow: 0 4px 15px rgba(118,75,162,0.7);
+    }
+    #input-area button:hover {
+      background: #8c5dbb;
+      box-shadow: 0 6px 20px rgba(140,93,187,0.8);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <header>Cool Messaging App</header>
+    <div id="messages" aria-live="polite" aria-relevant="additions"></div>
+    <form id="input-area" aria-label="Send message form">
+      <input type="text" id="message-input" aria-label="Message input" placeholder="Type your message..." autocomplete="off" required />
+      <button type="submit" aria-label="Send message">Send</button>
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      const messagesContainer = document.getElementById('messages');
+      const inputForm = document.getElementById('input-area');
+      const messageInput = document.getElementById('message-input');
+      const STORAGE_KEY = 'coolMessagingAppMessages';
+
+      // Load messages from localStorage or create an empty array
+      let messages = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+      // Helper to format timestamp
+      function formatTimestamp(ts) {
+        const d = new Date(ts);
+        let hours = d.getHours();
+        const mins = d.getMinutes().toString().padStart(2, '0');
+        const ampm = hours >=12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        return hours + ':' + mins + ' ' + ampm;
+      }
+
+      // Render messages on screen
+      function renderMessages() {
+        messagesContainer.innerHTML = '';
+        messages.forEach(msg => {
+          const msgDiv = document.createElement('div');
+          msgDiv.classList.add('message', 'sent'); // All messages are "sent" by user in this simple app
+          msgDiv.textContent = msg.text;
+
+          const timestampSpan = document.createElement('span');
+          timestampSpan.classList.add('timestamp');
+          timestampSpan.textContent = formatTimestamp(msg.timestamp);
+          msgDiv.appendChild(timestampSpan);
+
+          messagesContainer.appendChild(msgDiv);
+        });
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+
+      // Add message
+      function addMessage(text) {
+        const newMsg = { text: text.trim(), timestamp: Date.now() };
+        messages.push(newMsg);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+        renderMessages();
+      }
+
+      // Handle form submit
+      inputForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = messageInput.value;
+        if (text.trim() === '') return;
+        addMessage(text);
+        messageInput.value = '';
+        messageInput.focus();
+      });
+
+      // Initial render
+      renderMessages();
+    })();
+  </script>
+</body>
+</html>
+

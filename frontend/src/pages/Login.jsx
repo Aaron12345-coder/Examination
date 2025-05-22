@@ -44,9 +44,9 @@ function Login() {
   return (
     <>
       <div className="bg-green-700 h-20 flex justify-between items-center px-8 fixed top-0 w-full z-50">
-            <h1 className="text-white text-3xl font-bold">St_Luke_Hospital</h1>
+            <h1 className="text-white text-3xl font-bold">Smart_Park_Company</h1>
             </div>
-            <div className="flex items-center justify-center  bg-blue-700 text-black h-160">
+            <div className="flex items-center justify-center  bg-blue-700 text-black h-181">
     <div className="flex items-center justify-center w-110 h-90 bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
         <h1 className="text-2xl font-bold text-center text-black-700">Login</h1>
@@ -106,7 +106,7 @@ function Login() {
         {/* Footer */}
       </div>
        <footer className="bg-gray-800 text-white text-center py-4 fixed bottom-0 w-full">
-        <p>© 2025 St_Luke_Hospital. All rights reserved.</p>
+        <p>© 2025 Smart_Park_Company. All rights reserved.</p>
       </footer>
     </div>
     </div>
