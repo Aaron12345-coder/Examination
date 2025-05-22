@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import {useNavigate } from 'react-router-dom';
 function TableInput({ onSubmit }) {
+  const navigate = useNavigate();
   const [rows, setRows] = useState([{ service: '', carType: '', price: '' }]);
 
   // Handle input change
@@ -22,10 +23,14 @@ function TableInput({ onSubmit }) {
 
     try {
       // Send data to the backend using axios
-      const response = await axios.post('http://localhost:5000/api/data', rows);
+      const response = await axios.post('http://localhost:8000/api/data', rows).then(()=>{
+
+         onSubmit(rows);
+      navigate("/services")
+      });
       
       // Call the onSubmit function (if needed for further handling)
-      onSubmit(rows);
+     
 
       console.log('Data submitted:', response.data);
     } catch (error) {
@@ -80,7 +85,7 @@ function TableInput({ onSubmit }) {
         <button type="button" onClick={addRow} className="bg-gray-500 text-white px-4 py-2 rounded">
           + Add Row
         </button>
-        <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded">
+           <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded">
           Submit
         </button>
       </div>
