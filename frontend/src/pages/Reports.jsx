@@ -26,7 +26,7 @@ function Reports() {
           Combined Daily Report
         </h1>
         <div className="overflow-x-auto rounded-xl shadow-2xl border border-gray-700">
-          <table className="min-w-full table-auto text-sm text-left text-gray-300 bg-gray-900">
+          <table id='report' className="min-w-full table-auto text-sm text-left text-gray-300 bg-gray-900">
             <thead className="bg-gray-800 text-blue-300">
               <tr>
                 <th className="py-3 px-4">Plate Number</th>
@@ -55,6 +55,7 @@ function Reports() {
               )}
             </tbody>
           </table>
+          <button onClick={()=>{window.print(document.getElementById("report"))}} className='bg-green-400 w-247'>Print</button>
         </div>
       </div>
 
