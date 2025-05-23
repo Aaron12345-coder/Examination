@@ -643,6 +643,33 @@ app.get('/updatecar/:PlateNumber_id', (req, res) => {
     res.json(result[0]);
   });
 });
+
+app.post('/revision',(req,res)=>{
+  const {Activite,Time,Achieved} = req.body;
+  const val = [Activite,Time,Achieved];
+  const Rev = "INSERT INTO `night`(`Activite`, `Time`, `achieved`) VALUES (?, ?, ?)";
+  db.query(Rev,val,(err,data)=>{
+    if(err){
+      throw err
+    }else{
+      console.log(data);
+      
+    }
+  })
+})
+
+app.get("/revision",(req,res)=>{
+  const Revi = "SELECT * FROM `night`";
+  db.query(Revi,(err,data)=>{
+    if(err){
+      throw err
+    }else{
+      console.log(data);
+      res.send(data)
+      
+    }
+  })
+})
 // Start server
 app.listen(port, () => {
   console.log(`✅ Server running on http://localhost:${port}`);

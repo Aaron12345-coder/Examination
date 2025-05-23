@@ -75,6 +75,10 @@ function DashboardLayout({ children }) {
             <Link to="/tableinput" className="hover:text-blue-400 flex items-center gap-2 mt-5">
               <FaUserPlus /> Table Input
             </Link>
+
+             <Link to="/revision" className="hover:text-blue-400 flex items-center gap-2 mt-5">
+              <FaUserPlus /> Revision
+            </Link>
           </div>
 
           {/* Logout Button */}

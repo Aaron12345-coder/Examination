@@ -22,6 +22,8 @@ import Update from './pages/Update';
 import Packages from './pages/Packages';
 import Updatecar from './pages/Updatecar';
 import Updateservices from './pages/Updateservices';
+import Revision from './pages/Revision';
+import Adduser from './pages/Adduser';
 
 function App() {
   return (
@@ -48,6 +50,8 @@ function App() {
         <Route path='/packages' element={<Packages/>}></Route>
         <Route path='/updatecar/:PlateNumber_id' element={<Updatecar/>}></Route>
         <Route path='/updateservice/:id' element={<Updateservices/>}></Route>
+        <Route path='/revision' element={<Revision/>}></Route>
+        <Route path='/adduser' element={<Adduser/>}></Route>
          <Route path='/dashboard' element={<Dashboard/>}/>
           <Route path="/display" element={<Display />} />
           {/* <Route path="/updateusers/:id" element={<Updateusers />} /> */}
